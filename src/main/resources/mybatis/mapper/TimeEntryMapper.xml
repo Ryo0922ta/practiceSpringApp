@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.practice.mapper.TimeEntryMapper">
+
+    <resultMap id="TimeEntryMap" type="com.example.practice.dto.TimeEntryItemDto">
+        <result property="userId" column="user_id" />
+        <result property="date" column="date" />
+        <result property="clockIn" column="clock_in" />
+        <result property="clockOut" column="clock_out" />
+        <result property="workMinutes" column="work_minutes" />
+        <result property="note" column="note" />
+        <result property="version" column="version" />
+        <result property="createdAt" column="created_at" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.practice.dto.TimeEntryItemDto">
+        INSERT INTO time_entry (id, user_id, date, clock_in, clock_out, work_minutes, note, version, created_at, updated_at)
+        VALUES (#{id}, #{userId}, #{date}, #{clockIn}, #{clockOut}, #{workMinutes}, #{note}, #{version}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="selectById" resultMap="TimeEntryMap" parameterType="java.util.UUID">
+        SELECT * FROM time_entry WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserBetween" resultMap="TimeEntryMap">
+        SELECT * FROM time_entry
+        WHERE user_id = #{userId} AND date BETWEEN #{start} AND #{end}
+        ORDER BY date
+    </select>
+
+    <update id="updateByIdAndVersion" parameterType="com.example.practice.dto.TimeEntryItemDto">
+        UPDATE time_entry
+        SET clock_in = #{clockIn}, clock_out = #{clockOut}, work_minutes = #{workMinutes}, note = #{note}, version = version + 1, updated_at = #{updatedAt}
+        WHERE id = #{id} AND version = #{version}
+    </update>
+
+</mapper>

@@ -31,3 +31,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Gradle cache and daemon
+.gradle/
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
+log/
+
+# Project-specific
+ticket/
